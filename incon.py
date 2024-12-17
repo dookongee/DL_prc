@@ -20,7 +20,7 @@ import os
 
 st.title("Dog_Prediction")
 
-uploaded_file = st.file_uploader("강아지 이미지를 업로드하세요", type=['jpg', 'jpeg', 'png'])
+#uploaded_file = st.file_uploader("강아지 이미지를 업로드하세요", type=['jpg', 'jpeg', 'png'])
 # cropped_img=1
 # if uploaded_file is not None:
 #     # 이미지를 PIL Image로 로드합니다.
