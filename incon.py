@@ -129,23 +129,28 @@ test_transform = A.Compose([
 pred_list = []
 prob_list = []
 
+
+uploaded_file = st.file_uploader("강아지 이미지를 업로드하세요", type=['jpg', 'jpeg', 'png'])
+if uploaded_file is not None:
+  image = Image.open(uploaded_file)
+  img_path=image
+  st.image(img_path, caption='강아지가 검출된 이미지')
+
+  for i in model_list:
+    pred, prob=cls_result(i,img_path,test_transform)
+    pred_list.append(pred)
+    prob_list.append(prob)
+  
+  if pred_list.count(0)>pred_list.count(1):
+    prediction='happy'
+    probability=round(sum([prob_list[i] for i, value in enumerate(pred_list) if value==0])/pred_list.count(0),2)
+  else:
+    prediction='not_happy'
+    probability=round(sum([prob_list[i] for i, value in enumerate(pred_list) if value==1])/pred_list.count(1),2)
+  
+  st.write(prediction, probability)
+  st.write(pred_list)
+  st.write(prob_list)
+
+
 #img_path=cropped_img
-image = Image.open(uploaded_file)
-img_path=image
-st.image(img_path, caption='강아지가 검출된 이미지')
-
-for i in model_list:
-  pred, prob=cls_result(i,img_path,test_transform)
-  pred_list.append(pred)
-  prob_list.append(prob)
-
-if pred_list.count(0)>pred_list.count(1):
-  prediction='happy'
-  probability=round(sum([prob_list[i] for i, value in enumerate(pred_list) if value==0])/pred_list.count(0),2)
-else:
-  prediction='not_happy'
-  probability=round(sum([prob_list[i] for i, value in enumerate(pred_list) if value==1])/pred_list.count(1),2)
-
-st.write(prediction, probability)
-st.write(pred_list)
-st.write(prob_list)
