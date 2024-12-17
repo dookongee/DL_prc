@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 from streamlit_drawable_canvas import st_canvas
-from ultralytics import YOLO
+# from ultralytics import YOLO
 from torchvision import models
 from torchvision.models import ResNet34_Weights
 from torchvision.models import EfficientNet_B0_Weights
@@ -21,31 +21,31 @@ import os
 st.title("Dog_Prediction")
 
 uploaded_file = st.file_uploader("강아지 이미지를 업로드하세요", type=['jpg', 'jpeg', 'png'])
-cropped_img=1
-if uploaded_file is not None:
-    # 이미지를 PIL Image로 로드합니다.
+# cropped_img=1
+# if uploaded_file is not None:
+#     # 이미지를 PIL Image로 로드합니다.
 
-    image = Image.open(uploaded_file)
-    width, height = image.size
+#     image = Image.open(uploaded_file)
+#     width, height = image.size
 
-    model_yolo = YOLO('yolov8n.pt')
-    dog_class_id = 16
-    img_array = np.array(image)
-    result=model_yolo(img_array)
-    for i in result:
-        xyxys=i.boxes.xyxyn
-        confs=i.boxes.conf
-        clss=i.boxes.cls
+#     model_yolo = YOLO('yolov8n.pt')
+#     dog_class_id = 16
+#     img_array = np.array(image)
+#     result=model_yolo(img_array)
+#     for i in result:
+#         xyxys=i.boxes.xyxyn
+#         confs=i.boxes.conf
+#         clss=i.boxes.cls
 
-        xyxys = xyxys.numpy()
-        clss = map(int, clss.numpy())
-        for xyxy, conf, cls in zip(xyxys, confs, clss):
-            if cls == dog_class_id:
-              bbox = [int(xyxy[0]*width), int(xyxy[1]*height), int(xyxy[2]*width), int(xyxy[3]*height)]
-              cropped_img = image.crop(bbox)
-            #else:cropped_img=image
-if cropped_img==1:
-  cropped_img= Image.open(uploaded_file)     
+#         xyxys = xyxys.numpy()
+#         clss = map(int, clss.numpy())
+#         for xyxy, conf, cls in zip(xyxys, confs, clss):
+#             if cls == dog_class_id:
+#               bbox = [int(xyxy[0]*width), int(xyxy[1]*height), int(xyxy[2]*width), int(xyxy[3]*height)]
+#               cropped_img = image.crop(bbox)
+#             #else:cropped_img=image
+# if cropped_img==1:
+#   cropped_img= Image.open(uploaded_file)     
 
 def densenet(weight, device):
   model=models.densenet121(weights=DenseNet121_Weights.DEFAULT)
