@@ -20,7 +20,7 @@ import os
 
 st.title("Dog_Prediction")
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(hash_funcs={torch.nn.Module: lambda _: None})
 def densenet(weight, device):
   model=models.densenet121(weights=DenseNet121_Weights.DEFAULT)
   for param in model.parameters():
@@ -36,7 +36,7 @@ def densenet(weight, device):
   model.eval()
   return model
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(hash_funcs={torch.nn.Module: lambda _: None})
 def efficientnet(weight, device):
   model=models.efficientnet_b0(weights=EfficientNet_B0_Weights.DEFAULT)
   for param in model.parameters():
@@ -52,7 +52,7 @@ def efficientnet(weight, device):
   model.eval()
   return model
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(hash_funcs={torch.nn.Module: lambda _: None})
 def resnet(weight, device):
   model = models.resnet34(weights=ResNet34_Weights.DEFAULT)
   for param in model.parameters():
